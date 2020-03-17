@@ -55,12 +55,8 @@ int knapsack_r(int w, knapsack_item * items[], int len, int index){
 //
 // @return: larger of the two values
 int max(int a, int b){
-  // (a > b) ? return a : return b;
-  if(a > b) {
-    return a;
-  } else {
-    return b;
-  }
+    // Correct use of ternary operator
+    return (a > b) ? a : b;
 }
 
 // create_knapsack_item() mallocs memory for the knapsack item struct and returns a pointer to it
