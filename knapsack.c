@@ -37,13 +37,14 @@ int knapsack(int w, knapsack_item * items[], int len) {
 // @return int total_value: the total value of the knapsack when the weight is <= max_weight
 int knapsack_r(int w, knapsack_item * items[], int len, int index){
   // If out of bounds, do nothing
-  if(index > len){
+  if(index >= len){
     return 0;
   }
   // If adding the item would go over the max weight, then do not add it
   if((w - items[index]->weight) < 0){
     return knapsack_r(w, items, len, index+1);
   }
+
   // Take the result that maximizes the knapsack efficiency
   return max(knapsack_r((w - items[index]->weight), items, len, index+1) + items[index]->value,
              knapsack_r(w, items, len, index+1));
