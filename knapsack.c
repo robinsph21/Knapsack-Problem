@@ -78,6 +78,43 @@ void free_set(knapsack_item * array[], int len) {
     }
 }
 
+
+// dynamisack() runs the dynamic programming algorithm on the knapsack items
+// @param int w: max weight
+// @param int items[]: array of knapsack_items
+// @param int len: length of items
+//
+// @return int total_value or 0(INT_ERR) if there is an error
+int dynamisack(int w, knapsack_item * items[], int len) {
+  // Create an empty int array initialized to 0
+  int T[len+1][w+1];
+  for(int i=0; i<len+1; i++) {
+    for(int j=0; j<w+1; j++) {
+        T[i][j] = 0;
+    }
+  }
+  //fill out the table
+  for(int i=1; i<len+1; i++) {
+    for(int j=1; j<w+1; j++) {
+      if(items[i-1]->weight > j) {
+        //if the weight of the cell above is greater than the max weight, just copy the cell above
+        T[i][j] = T[i-1][j];
+      } else {
+        //take the max of the (cell above) and (next most filled cell above and to the left)
+        T[i][j] = max(T[i-1][j], T[i-1][j-items[i-1]->weight] + items[i-1]->value);
+      }
+    }
+  }
+
+  for(int i=0; i<len+1; i++){
+    for(int j=0; j<w+1; j++){
+      printf("%d \t", T[i][j]);
+    }
+    printf("\n");
+  }
+  return T[len][w];
+}
+
 int main(int argc, char const *argv[]) {
     // item_0 definition
     knapsack_item * item_0 = create_knapsack_item(1, 6);
@@ -90,7 +127,8 @@ int main(int argc, char const *argv[]) {
     int max_weight = 5;
 
     // Call the functions
-    printf("Final knapsack total value: %d\n", knapsack(max_weight, set, 4));
+    printf("Final knapsack total value (recusive function): %d\n", knapsack(max_weight, set, 4));
+    printf("Final knapsack total value (dynamic programming): %d\n", dynamisack(max_weight, set, 4));
 
     free_set(set, 4);
 
