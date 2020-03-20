@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "knapsack.h"
 
 // knapsack() error checks and then runs the reccursive algorithm
@@ -106,31 +107,86 @@ int dynamisack(int w, knapsack_item * items[], int len) {
     }
   }
 
-  for(int i=0; i<len+1; i++){
-    for(int j=0; j<w+1; j++){
-      printf("%d \t", T[i][j]);
-    }
-    printf("\n");
-  }
   return T[len][w];
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const * argv[]) {
+    int type = -1;
+
+    if(argc != 2) {
+        printf("Incorrect number of arguments! Usage: %s [recursive | dynamic]\n", argv[0]);
+        exit(EXIT_FAILURE);
+    } else {
+        if(strcmp(argv[1], "recursive") == 0) {
+            type = 0;
+        } else if(strcmp(argv[1], "dynamic") == 0) {
+            type = 1;
+        } else {
+            printf("Invalid argument! Usage: %s [recursive | dynamic]\n", argv[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
     // item_0 definition
-    knapsack_item * item_0 = create_knapsack_item(1, 6);
-    knapsack_item * item_1 = create_knapsack_item(2, 10);
-    knapsack_item * item_2 = create_knapsack_item(3, 12);
-    knapsack_item * item_3 = create_knapsack_item(1, 7);
+    knapsack_item * i0 = create_knapsack_item(1, 6);
+    knapsack_item * i1 = create_knapsack_item(2, 10);
+    knapsack_item * i2 = create_knapsack_item(3, 12);
+    knapsack_item * i3 = create_knapsack_item(1, 7);
+    knapsack_item * i4 = create_knapsack_item(2, 10);
+    knapsack_item * i5 = create_knapsack_item(5, 12);
+    knapsack_item * i6 = create_knapsack_item(10, 7);
+    knapsack_item * i7 = create_knapsack_item(6, 18);
+    knapsack_item * i8 = create_knapsack_item(9, 20);
+    knapsack_item * i9 = create_knapsack_item(7, 10);
+    knapsack_item * i10 = create_knapsack_item(6, 19);
+    knapsack_item * i11 = create_knapsack_item(5, 10);
+    knapsack_item * i12 = create_knapsack_item(14, 30);
+    knapsack_item * i13 = create_knapsack_item(11, 26);
+    knapsack_item * i14 = create_knapsack_item(13, 28);
+    knapsack_item * i15 = create_knapsack_item(7, 18);
+    knapsack_item * i16 = create_knapsack_item(6, 20);
+    knapsack_item * i17 = create_knapsack_item(9, 7);
+    knapsack_item * i18 = create_knapsack_item(4, 19);
+    knapsack_item * i19 = create_knapsack_item(1, 9);
+    knapsack_item * i20 = create_knapsack_item(1, 6);
+    knapsack_item * i21 = create_knapsack_item(2, 10);
+    knapsack_item * i22 = create_knapsack_item(3, 12);
+    knapsack_item * i23 = create_knapsack_item(4, 7);
+    knapsack_item * i24 = create_knapsack_item(2, 10);
+    knapsack_item * i25 = create_knapsack_item(5, 12);
+    knapsack_item * i26 = create_knapsack_item(10, 7);
+    knapsack_item * i27 = create_knapsack_item(6, 18);
+    knapsack_item * i28 = create_knapsack_item(9, 20);
+    knapsack_item * i29 = create_knapsack_item(7, 10);
+    knapsack_item * i30 = create_knapsack_item(6, 19);
+    knapsack_item * i31 = create_knapsack_item(5, 10);
+    knapsack_item * i32 = create_knapsack_item(14, 30);
+    knapsack_item * i33 = create_knapsack_item(11, 26);
+    knapsack_item * i34 = create_knapsack_item(13, 28);
+    knapsack_item * i35 = create_knapsack_item(7, 18);
+    knapsack_item * i36 = create_knapsack_item(6, 20);
+    knapsack_item * i37 = create_knapsack_item(9, 7);
+    knapsack_item * i38 = create_knapsack_item(4, 19);
+    knapsack_item * i39 = create_knapsack_item(1, 9);
 
     // Array of pointers
-    knapsack_item * set[] = {item_0, item_1, item_2, item_3};
-    int max_weight = 5;
+    knapsack_item * set[] = {
+        i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11, i12, i13, i14, i15, i16, i17, i18, i19,
+        i20, i21, i22, i23, i24, i25, i26, i27, i28, i29, i30, i31, i32, i33, i34, i35, i36, i37,
+        i38, i39
+    };
+    int num_items = 40;
+    int max_weight = 60;
 
     // Call the functions
-    printf("Final knapsack total value (recusive function): %d\n", knapsack(max_weight, set, 4));
-    printf("Final knapsack total value (dynamic programming): %d\n", dynamisack(max_weight, set, 4));
+    if(type == 0) {
+        printf("Final knapsack total value (recusive function): %d\n", knapsack(max_weight, set, num_items));
+    } else if(type == 1) {
+        printf("Final knapsack total value (dynamic programming): %d\n", dynamisack(max_weight, set, num_items));
+    } else {
+        printf("Unknown error! Exiting...\n");
+    }
 
-    free_set(set, 4);
+    free_set(set, num_items);
 
     return EXIT_SUCCESS;
 }
